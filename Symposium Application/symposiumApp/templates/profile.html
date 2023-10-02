@@ -20,6 +20,19 @@
         {% csrf_token %}
         <label for="name">Name:</label>
         <input type="text" name="username" placeholder="Type your name...."/>
+        <label for="regno">Register No:</label>
+        <input type="number" name="regno" placeholder="Type your Register No...."/>
+        <label for="year">Year:</label>
+        <select id="myDropdown" name="year">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <label for="department">Department:</label>
+        <input type="text" name="department" placeholder="Type your Department...."/>
+        <label for="section">Section:</label>
+        <input type="text" name="section" placeholder="Type your Section...."/>
         <label for="phone">Phone Number:</label>
         <input type="tel" name="phone" placeholder="Type your Phone Number...." maxlength="10"/>
         <input type="submit" />
