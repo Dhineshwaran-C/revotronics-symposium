@@ -36,17 +36,6 @@ class TeamEvents(models.Model):
     teammates = ArrayField(models.CharField(max_length=100))
     password = models.IntegerField()
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        # Check if size is not already set
-        if not self.teammates:
-            # Fetch the size from Events based on the eventname in this model
-            try:
-                size_from_events = Events.objects.get(eventname=self.eventname).limit
-                self.teammates =[None]*size_from_events
-            except Events.DoesNotExist:
-                pass
 
 
 

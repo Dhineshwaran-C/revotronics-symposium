@@ -8,6 +8,10 @@
 <body>
     <h1>registration</h1>
 
+    {% for i in userevents %}
+    <p>{{i}}</p>
+    {% endfor %}
+
     <form method="POST">
         {% csrf_token %}
 
@@ -46,9 +50,11 @@
             <button id="createTeamButton" style="display: none;">Create Team</button>
             <button id="joinTeamButton" style="display: none;">Join Team</button>
 
+            <input id="action" type="hidden" name="action" value="">
+
             <div id="createTeam" style="display: none;">
                     
-                    <input type="hidden" name="action" value="action2">
+                    
                     <label for="teamname">Team Name:</label>
                     <input type="text" name="teamname" placeholder="Type your Team name...."/>
 
@@ -59,9 +65,8 @@
                     <input type="submit"/>
             </div>
 
-            <!-- <div id="joinTeam" style="display: none;">
+            <div id="joinTeam" style="display: none;">
                     
-                <input type="hidden" name="action" value="action3">
                 <label for="teamnames">Team Name:</label>
                 <select id="teamnames" name="teamnames">
                     {% for team in teams %}
@@ -78,7 +83,7 @@
 
 
                 <input type="submit"/>
-            </div> -->
+            </div>
     </form>
 
     
@@ -126,9 +131,11 @@
         createTeamButton.addEventListener('click', function(event) {
             event.preventDefault();
             const createTeam = document.getElementById('createTeam');
-            // const joinTeam = document.getElementById('joinTeam');
+            const joinTeam = document.getElementById('joinTeam');
+            const action = document.getElementById('action');
+            action.value = 'action2';
             createTeam.style.display = 'inline-block';
-            // joinTeam.style.display = 'none';
+            joinTeam.style.display = 'none';
 
         });
 
@@ -137,10 +144,13 @@
 
         joinTeamButton.addEventListener('click', function(event) {
             event.preventDefault();
-            // const createTeam = document.getElementById('createTeam');
+            const createTeam = document.getElementById('createTeam');
             const joinTeam = document.getElementById('joinTeam');
-            // createTeam.style.display = 'none';
+            createTeam.style.display = 'none';
             joinTeam.style.display = 'inline-block';
+
+            const action = document.getElementById('action');
+            action.value = 'action3';
 
             var selectedEvent = selectField2.value;
             var teamOptions = document.getElementById("teamnames").options;
@@ -150,37 +160,15 @@
                 var eventname = option.getAttribute("data-eventname");
 
                 if (selectedEvent === eventname) {
-                    option.style.display = "block"; // Show the option
+                    option.style.display = "block";
                 } else {
-                    option.style.display = "none"; // Hide the option
+                    option.style.display = "none";
                 }
             }
         });
 
 
 
-
-        // action2Form.addEventListener('click', function(event) {
-
-        //     event.preventDefault();
-
-
-        //     const selectedOption = selectField.options[selectField.selectedIndex];
-        //     const selectedEventName = selectedOption.value;
-        //     const formSubmit = document.getElementById('action2FormSubmit');
-
-
-        //     if (inputField.value == '') {
-        //         permanentInputField.value = selectedEventName;
-        //     } else {
-        //         permanentInputField.value = inputField.value + "," + selectedEventName;
-        //     }
-        //     createTeamButton.style.display = 'none';
-        //     joinTeamButton.style.display = 'none';
-        //     createTeam.style.display = 'none';
-
-        //     formSubmit.submit();
-        // });
     </script>
 </body>
 </html>
