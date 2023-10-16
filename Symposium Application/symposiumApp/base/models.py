@@ -15,9 +15,14 @@ class User(models.Model):
     regno = models.CharField(max_length=100,null=True)
 
 
-# class Userpayment(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     payment = models.BooleanField(default=False)
+class Userpayment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField(unique=True)
+    is_paid = models.BooleanField(default=False)
+    order_id = models.CharField(max_length=500,blank=True)
+    instamojo_response = models.TextField(null=True,blank=True)
+    payment_id = models.CharField(max_length=500,blank=True)
+
 
 class Events(models.Model):
     eventname = models.CharField(max_length=100)

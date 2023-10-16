@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base',
+    'instamojo_wrapper',
 
     'allauth',
     'allauth.account',
@@ -160,3 +161,9 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+API_KEY = "test_1d1892f58039d35b1defc81b11e"
+
+AUTH_TOKEN = "test_b69b12ddce92055eef455b9a673"
+
+SALT = "a669d88b6604426e94ceedf969c0349b"

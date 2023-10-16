@@ -7,12 +7,9 @@
 </head>
 <body>
     <h1>registration</h1>
+ 
 
-    {% for i in userevents %}
-    <p>{{i}}</p>
-    {% endfor %}
-
-    <form method="POST">
+    <!-- <form method="POST">
         {% csrf_token %}
 
         <input type="hidden" name="action" value="action1">
@@ -32,25 +29,27 @@
         <input type="text" id="inputField" name="eventstatus1" placeholder="U can Change">
         <input type="submit" />
 
-    </form>
+    </form> -->
 
     <form method="POST">
         {% csrf_token %}
-        <select id="regteamevent" name="regteamevent">
+        <!-- <select id="regteamevent" name="regteamevent">
             {% for event in team_event %}
             <option value="{{event.eventname}}">
                 {{event.eventname}}
             </option>
             {% endfor %}
-        </select>
-        
+        </select> -->
+
+        <input id="regteamevent" type="hidden" name="regteamevent" value="Paper Presentation">
+        <input id="action" type="hidden" name="action" value="">
 
             <button id="appendButton2">Append Value</button>
 
             <button id="createTeamButton" style="display: none;">Create Team</button>
             <button id="joinTeamButton" style="display: none;">Join Team</button>
 
-            <input id="action" type="hidden" name="action" value="">
+            
 
             <div id="createTeam" style="display: none;">
                     
@@ -91,10 +90,10 @@
 
     <script>
 
-        const selectField = document.getElementById('regnonteamevent');
+        // const selectField = document.getElementById('regnonteamevent');
         const selectField2 = document.getElementById('regteamevent');
-        const inputField = document.getElementById('inputField');
-        const appendButton = document.getElementById('appendButton');
+        // const inputField = document.getElementById('inputField');
+        // const appendButton = document.getElementById('appendButton');
         const appendButton2 = document.getElementById('appendButton2');
         const createTeamButton = document.getElementById('createTeamButton');
         const joinTeamButton = document.getElementById('joinTeamButton');
@@ -103,20 +102,20 @@
 
 
 
-        appendButton.addEventListener('click', function() {
+        // appendButton.addEventListener('click', function() {
 
-            event.preventDefault()
-            const selectedValue = selectField.value;
+        //     event.preventDefault()
+        //     const selectedValue = selectField.value;
 
 
-                if(inputField.value === ''){
-                    inputField.value = selectedValue;
-                }
-                else{
-                    inputField.value = inputField.value + "," + selectedValue;
-                }
+        //         if(inputField.value === ''){
+        //             inputField.value = selectedValue;
+        //         }
+        //         else{
+        //             inputField.value = inputField.value + "," + selectedValue;
+        //         }
 
-        });
+        // });
 
 
         appendButton2.addEventListener('click', function() {

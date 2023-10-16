@@ -5,36 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Document</title>
-    <script>
+    <!-- <script>
         document.addEventListener("keydown", function(event) {
             if (event.key === "Backspace") {
-                window.location.href = "{% url 'logout' %}";
-                event.preventDefault();
+                sessionStorage.clear();
+                // window.location.href = "{% url 'logout' %}";
+                // event.preventDefault();
             }
         });
-    </script>
+    </script> -->
 </head>
 <body>
     <h1>{{email}}</h1>
     <form method="POST">
         {% csrf_token %}
         <label for="name">Name:</label>
-        <input type="text" name="username" placeholder="Type your name...."/>
+        <input type="text" name="username" placeholder="Type your name...."/ required>
         <label for="regno">Register No:</label>
-        <input type="number" name="regno" placeholder="Type your Register No...."/>
+        <input type="number" name="regno" placeholder="Type your Register No...."/ required>
         <label for="year">Year:</label>
-        <select id="myDropdown" name="year">
+        <select id="myDropdown" name="year" required>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
         </select>
         <label for="department">Department:</label>
-        <input type="text" name="department" placeholder="Type your Department...."/>
+        <input type="text" name="department" placeholder="Type your Department...."/ required>
         <label for="section">Section:</label>
-        <input type="text" name="section" placeholder="Type your Section...."/>
+        <input type="text" name="section" placeholder="Type your Section...."/ required>
         <label for="phone">Phone Number:</label>
-        <input type="tel" name="phone" placeholder="Type your Phone Number...." maxlength="10"/>
+        <input type="tel" name="phone" placeholder="Type your Phone Number...." maxlength="10"/ required>
         <input type="submit" />
     </form>
     <a href="{% url 'logout' %}">Logout</a>
