@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
 from django.urls import reverse
 
+
 import qrcode
 import yagmail
 
@@ -262,3 +263,6 @@ def paymentsuccess(request):
     
 def alreadypaid(request):
     return render(request,'alreadypaid.html')
+
+
+
