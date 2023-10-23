@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env("DB_NAME"),
         'USER': env("DB_USER"),
-        'PASSWORD': "OpenSesame#3",
+        'PASSWORD': 'OpenSesame#3',
         'HOST': env("DB_HOST"),
         'PORT': env("DB_PORT"),
     }
@@ -135,7 +135,15 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
+
+STATIC_URL = 'static/'
+MEDIA_URL = '/img/'
+
+STATICFILES_DIRS = [
+    BASE_DIR/'static'
+]
+
+MEDIA_ROOT = BASE_DIR / 'static/img'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

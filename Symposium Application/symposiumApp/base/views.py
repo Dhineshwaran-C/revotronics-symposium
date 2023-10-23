@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from .models import User,Events,UserEvents,TeamEvents,Userpayment
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponse
 from django.urls import reverse
 
 
@@ -21,10 +20,15 @@ api = Instamojo(
     )
 
 
-# Create your views here.
+#  Login
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     return render(request,'login.html')
 
+
+
+#profile
 @login_required(login_url='login')
 @csrf_protect
 def profile(request):
@@ -46,15 +50,17 @@ def profile(request):
 
     return render(request,'profile.html')
 
+
+#logout
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
-
+#home
 def home(request):
     return render(request,'home.html')
 
-
+#events
 @login_required(login_url='login')
 @csrf_protect
 def events(request):
@@ -69,8 +75,10 @@ def events(request):
         return redirect('event')
     return render(request,'events.html')
 
+def errornotification(request,data,data2):
+    return render(request,'errornotification.html',{'data':data,'data2':data2})
 
-
+#registration
 @login_required(login_url='login')
 def registration(request):
     cemail = User.objects.values_list('email',flat=True)
@@ -80,7 +88,9 @@ def registration(request):
         tempevent = 'Paper Presentation'
         data = UserEvents.objects.get(email = request.user.email)
         if tempevent in data.eventstatus:
-            return HttpResponse("You are already in this event",content_type='text/plain')
+            temp_data = 'You are already in this event'
+            redirect_page = 'home'
+            return errornotification(request,temp_data,redirect_page)
     except UserEvents.DoesNotExist:
         pass
     
@@ -96,59 +106,35 @@ def registration(request):
             if request.method == 'POST':
                 temp = User.objects.get(email = request.user.email)
                 action = request.POST.get('action')
-                # if action == 'action1':
-                #     cemail = UserEvents.objects.values_list('email',flat=True)
-                #     if request.user.email in cemail:
-                #         userevent = UserEvents.objects.get(email = request.user.email)
-                #         currentevent = request.POST.get('eventstatus1').split(',')
-                #         removed = []
-                #         check = userevent.eventstatus
-                #         for i in currentevent:
-                #             if i in check:
-                #                 removed.append(i)
-                #                 currentevent.remove(i)
-                #         userevent.eventstatus.extend(currentevent)
-                #         userevent.save()
-                #         removedstring = ','.join(removed)
-                #         return HttpResponse(f"You are already in \'{removedstring}\' event",content_type='text/plain')
-                #     else:
-                #         userevent = UserEvents.objects.create(
-                #             email = request.user.email,
-                #             user = temp,
-                #             eventstatus = request.POST.get('eventstatus1').split(',')
-                #         )
-                #     return redirect('home')
 
 
-                
                 if action == 'action2':
-                    # try:
-                    #     tempevent = request.POST.get('regteamevent')
-                    #     data = TeamEvents.objects.filter(eventname = tempevent)
-                    #     for i in data:
-                    #         if request.user.email in i.teammates:
-                    #             return HttpResponse("You are already in this event",content_type='text/plain')
-                    # except TeamEvents.DoesNotExist:
-                    #     pass
-                    TeamEvents.objects.create(
-                        eventname = request.POST.get('regteamevent'),
-                        teamname = request.POST.get('teamname'),
-                        teammates = [request.user.email],
-                        password = request.POST.get('pinpassword')
-                    )
-                    joinevent = request.POST.get('regteamevent')
-                    cemail = UserEvents.objects.values_list('email',flat=True)
-                    if request.user.email in cemail:
-                        userevent = UserEvents.objects.get(email = request.user.email)
-                        userevent.eventstatus.append(joinevent)
-                        userevent.save()
+                    teamnamecheck = request.POST.get('teamname')
+                    teamcheck = TeamEvents.objects.values_list('teamname',flat=True)
+                    if teamnamecheck in teamcheck:
+                        temp_data = 'This Team name already exist'
+                        redirect_page = 'registration'
+                        return errornotification(request,temp_data,redirect_page)
                     else:
-                        userevent = UserEvents.objects.create(
-                            email = request.user.email,
-                            user = temp,
-                            eventstatus = joinevent.split(',')
+                        TeamEvents.objects.create(
+                            eventname = request.POST.get('regteamevent'),
+                            teamname = request.POST.get('teamname'),
+                            teammates = [request.user.email],
+                            password = request.POST.get('pinpassword')
                         )
-                    return redirect('home')
+                        joinevent = request.POST.get('regteamevent')
+                        cemail = UserEvents.objects.values_list('email',flat=True)
+                        if request.user.email in cemail:
+                            userevent = UserEvents.objects.get(email = request.user.email)
+                            userevent.eventstatus.append(joinevent)
+                            userevent.save()
+                        else:
+                            userevent = UserEvents.objects.create(
+                                email = request.user.email,
+                                user = temp,
+                                eventstatus = joinevent.split(',')
+                            )
+                        return redirect('home')
                 
                 elif action == 'action3':
                     joinevent = request.POST.get('regteamevent')
@@ -157,19 +143,15 @@ def registration(request):
                     try:
                         data = TeamEvents.objects.get(eventname=joinevent,teamname = team)
                     except TeamEvents.DoesNotExist:
-                        return HttpResponse("There is no team like that")
+                        temp_data = 'There is no team like that'
+                        redirect_page = 'registration'
+                        return errornotification(request,temp_data,redirect_page)
 
                     
                     length = Events.objects.get(eventname = joinevent)
+
                     if len(data.teammates) < length.limit:
-                        # try:
-                        #     data2 = TeamEvents.objects.filter(eventname = joinevent)
-                        #     for i in data2:
-                        #         if request.user.email in i.teammates:
-                        #             return HttpResponse("You are already in this event",content_type='text/plain')
-                        # except TeamEvents.DoesNotExist:
-                        #     pass
-                        
+        
                         pinpassword = int(request.POST.get('pinpassword2'))
                         password = data.password
                         if password == pinpassword:
@@ -188,11 +170,14 @@ def registration(request):
                                 )
                             return redirect('home')
                         else:
-                            return HttpResponse('Your password is wrong Try again',content_type='text/plain')
+                            temp_data = 'Your password is wrong Try again'
+                            redirect_page = 'registration'
+                            return errornotification(request,temp_data,redirect_page)
                     
                     else:
-         
-                       return HttpResponse('The Team is already Full',content_type='text/plain')
+                        temp_data = 'The Team is already Full'
+                        redirect_page = 'registration'
+                        return errornotification(request,temp_data,redirect_page)
                     
         else:
             return redirect('payment')
@@ -203,6 +188,8 @@ def registration(request):
 
     return render(request,'registration.html',{'nonteam_event':nonteam_event,'team_event':team_event,'teams':teams})
 
+
+#payment
 @login_required(login_url='login')
 def payment(request):
     cemail = User.objects.values_list('email',flat=True)
@@ -233,6 +220,9 @@ def payment(request):
     except Exception as e:
         print(e)
 
+
+
+#paymentsuccess
 def paymentsuccess(request):
 
     payment_request_id = request.GET.get('payment_request_id')
@@ -261,8 +251,9 @@ def paymentsuccess(request):
 
     return render(request,'paymentsuccess.html')
     
+
+#alreadypaid
 def alreadypaid(request):
     return render(request,'alreadypaid.html')
-
 
 
