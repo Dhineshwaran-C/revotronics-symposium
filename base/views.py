@@ -4,7 +4,8 @@ from django.contrib.auth import logout
 from .models import User,Events,UserEvents,TeamEvents,Userpayment
 from django.views.decorators.csrf import csrf_protect
 from django.urls import reverse
-
+from django.conf import settings
+import os
 
 import qrcode
 import yagmail
@@ -44,7 +45,8 @@ def profile(request):
                 year = request.POST.get('year'),
                 department = request.POST.get('department'),
                 section = request.POST.get('section'),
-                regno = request.POST.get('regno')
+                regno = request.POST.get('regno'),
+                college = request.POST.get('college')
             )
             return redirect(reverse('home'))
 
@@ -56,9 +58,12 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-#home
+
 def home(request):
-    return render(request,'home.html')
+    userdata = ''
+    if request.user.is_authenticated:
+        userdata = User.objects.get(email = request.user.email)
+    return render(request,'home.html',{'userdata':userdata})
 
 #events
 @login_required(login_url='login')
@@ -110,7 +115,14 @@ def registration(request):
 
                 if action == 'action2':
                     teamnamecheck = request.POST.get('teamname')
+                    teampasswordcheck = request.POST.get('pinpassword')
                     teamcheck = TeamEvents.objects.values_list('teamname',flat=True)
+                    
+                    if teamnamecheck == '' or teampasswordcheck == '':
+                        temp_data = 'Teamname or Password is not given'
+                        redirect_page = 'registration'
+                        return errornotification(request,temp_data,redirect_page)
+                    
                     if teamnamecheck in teamcheck:
                         temp_data = 'This Team name already exist'
                         redirect_page = 'registration'
@@ -134,16 +146,22 @@ def registration(request):
                                 user = temp,
                                 eventstatus = joinevent.split(',')
                             )
-                        return redirect('home')
+                        return redirect('registrationsuccess')
                 
                 elif action == 'action3':
                     joinevent = request.POST.get('regteamevent')
                     team = request.POST.get('teamnames')
+                    teampasswordcheck = request.POST.get('pinpassword2')
 
                     try:
                         data = TeamEvents.objects.get(eventname=joinevent,teamname = team)
                     except TeamEvents.DoesNotExist:
                         temp_data = 'There is no team like that'
+                        redirect_page = 'registration'
+                        return errornotification(request,temp_data,redirect_page)
+                    
+                    if teampasswordcheck == '':
+                        temp_data = 'Password is not given'
                         redirect_page = 'registration'
                         return errornotification(request,temp_data,redirect_page)
 
@@ -168,7 +186,7 @@ def registration(request):
                                     user = temp,
                                     eventstatus = joinevent.split(',')
                                 )
-                            return redirect('home')
+                            return redirect('registrationsuccess')
                         else:
                             temp_data = 'Your password is wrong Try again'
                             redirect_page = 'registration'
@@ -222,7 +240,10 @@ def payment(request):
 
 
 
+
+
 #paymentsuccess
+@login_required(login_url='login')
 def paymentsuccess(request):
 
     payment_request_id = request.GET.get('payment_request_id')
@@ -242,9 +263,46 @@ def paymentsuccess(request):
         qr.save('qr images/'+user.email+'.png')
 
 
+        template_path = os.path.join(settings.BASE_DIR, 'templates', 'mail.html')
+
+
+        with open(template_path,'r') as file:
+            content = file.read()
+
+        # content = """
+        # <html>
+        # <head>
+        # <link href="../static/css/skin.css" rel="stylesheet" /> 
+        # </head>
+        # <body>
+        # <h1 class="logo extraBold gradient0" style="-webkit-text-stroke:0px transparent;"><b>REVOTRONICS</b></h1>
+        # <p style="font-family: Arial; color: blue;">Thank you for registering for Revotronics.</p>
+        # <p style="font-family: Times New Roman; color: red;">
+        # Please find the QR code attached to this email for check-in on the day of the symposium. Stay tuned for further updates.
+        # Get, Set, REV!
+        # Best Regards,
+        # Team Revotronics
+        # </p>
+        # </body>
+        # </html>
+        # """
+
+        content = """
+        <html>
+        <body>
+        <h1><b>REVOTRONICS</b></h1>
+        <h3>Thank you for registering for Revotronics.</h3><br>
+        <p>Please find the QR code attached to this email for check-in on the day of symposium. Stay tuned for further updates.</p>
+        <p>Get, Set, REV!</p>
+        <p>Best Regards,</p>
+        <p>Team Revotronics.</p>
+        </body>
+        </html>
+        """
 
         yag = yagmail.SMTP('hostelmanagement02@gmail.com','qhtbczatuzxmqghx')
-        yag.send(user.email,'testforpayment','test1','qr images/'+user.email+'.png')
+        yag.send(user.email,'Revotronics Payment Successful',content,'qr images/'+user.email+'.png')
+        yag.close()
 
     else:
         return redirect('alreadypaid')
@@ -253,7 +311,53 @@ def paymentsuccess(request):
     
 
 #alreadypaid
+@login_required(login_url='login')
 def alreadypaid(request):
     return render(request,'alreadypaid.html')
+
+@login_required(login_url='login')
+def registrationsuccess(request):
+    return render(request,'registrationsuccess.html')
+
+
+def paperpresentation(request):
+    return render(request,'paperpresentation.html')
+
+
+def guesstronics(request):
+    return render(request,'guesstronics.html')
+
+
+def electroswaggers(request):
+    return render(request,'electroswaggers.html')
+
+
+def electroquest(request):
+    return render(request,'electroquest.html')
+
+
+def cs2(request):
+    return render(request,'cs2.html')
+
+
+def bidwars(request):
+    return render(request,'bidwars.html')
+
+
+def funopedia(request):
+    return render(request,'funopedia.html')
+
+
+def guesswork(request):
+    return render(request,'guesswork.html')
+
+
+def debate(request):
+    return render(request,'debate.html')
+
+
+def rhymeredux(request):
+    return render(request,'rhymeredux.html')
+
 
 

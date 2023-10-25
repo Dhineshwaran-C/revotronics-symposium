@@ -13,6 +13,7 @@ class User(models.Model):
     department = models.CharField(max_length=100,null=True)
     section = models.CharField(max_length=5,null=True)
     regno = models.CharField(max_length=100,null=True)
+    college = models.CharField(null=True)
 
 
 class Userpayment(models.Model):

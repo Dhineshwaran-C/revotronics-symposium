@@ -11,32 +11,25 @@
 
 @font-face {
     font-family: verminVibes;
-    src: url(./fonts/VerminVibes.woff);
+    src: url('fonts/VerminVibes.woff');
 }
 
-/* html{
-    background-color:#0b1014;
-} */
+.move_right {
+    text-align: right;
+    margin-right: 26px;
+}
 
 #bdy{
     background-color:transparent;
 }
 
-.vhcontainer{
+/* .vhcontainer{
     width:100% !important;
     display:block;
     height:100vh !important;
-    margin:0 !important;
-}
-
-/* .myFlex{
     display: flex;
-    flex-direction: row;
-}
-
-.centerFlex{
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 } */
 
 #herotext{
@@ -167,7 +160,7 @@
 }
 
 .columnImage{
-    width:80%;
+    width:90%;
     margin:auto;
     box-shadow: 0px 0px 30px 1px var(--neonBlue);
 }
@@ -177,6 +170,21 @@
     font-size: 1.7rem;
     text-align: justify;
     text-align-last: center;
+}
+
+.about_event h3{
+    color: lightseagreen;
+}
+.about_event p {
+    color: white;
+    font-size: 20px;
+}
+.about_event li {
+    color: white;
+    font-size: 20px;
+}
+.about_event span {
+    text-decoration: underline;
 }
 
 #herologo{
@@ -225,8 +233,9 @@ li{
       touch-action: manipulation;
       white-space: nowrap;
       cursor: pointer;
+      margin-top: 50px;
     }
-    
+
     .button-63:active,
     .button-63:hover {
       outline: 0;
@@ -265,7 +274,7 @@ button{
     text-align: center;
 }
 
-.logo {
+/* .logo {
     display: flex;
     justify-content: center;
     font-size: 104px;
@@ -273,12 +282,18 @@ button{
     display: flex;
     font-family: verminVibes ;
     user-select: none;
-}
+} */
 
 .logo b{
-    font-family: verminVibes;
+    display: flex;
+    justify-content: center;
     font-size: 104px;
-    color: orange;
+    list-style-type: none;
+    font-family: verminVibes ;
+    user-select: none;
+    background: linear-gradient(to right, #6BCBDE, #2C296A, #453C95, #CC1D68, #D21B65); 
+    -webkit-text-fill-color: transparent; 
+    -webkit-background-clip: text;
     /* text-shadow: 0 -10px 70px, 0 0 2px, 0 0 1em #f443fc, 0 0 0.5em #f443fc, 0 0 0.1em #f443fc, 0 10px 3px #371269; */
 }
 
@@ -286,16 +301,18 @@ button{
     z-index: -1;
     position: absolute;
     position: fixed;
-    width: 100vw;
-    filter: brightness(50%);
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(40%);
 }
 
 .card {
     width: 350px;
-    overflow: hidden;
+    overflow: hidden;   
 }
 .card img {
-    transition: 0.3s;
+    transition: 0.5s;
 }
 
 .card:hover img {
@@ -306,6 +323,7 @@ button{
 .card:hover{
     transform: scale(1.15);
     transition: all 0.3s;
+    z-index: 1;
 }
 .content {
     position: absolute;
@@ -315,23 +333,23 @@ button{
 }
 .content h3 {
     font-size: 32px;
-    color: lightskyblue;
+    color: lightseagreen;
     opacity: 0;
     transform: translateY(50px);
-    transition: all 0.4s;
+    transition: all 0.6s;
 }
 .content p {
     color: white;
     opacity: 0;
     transform: translateY(50px);
-    transition: all 0.4s;
+    transition: all 0.6s;
 }
 .content button {
     opacity: 0;
     transform: translateY(50px);
-    transition: all 0.4s;
+    transition: all 0.6s;
 }
-.events {
+#events {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
