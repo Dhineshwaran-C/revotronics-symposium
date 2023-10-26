@@ -1,11 +1,11 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .models import User,Events,UserEvents,TeamEvents,Userpayment
+from .models import User,UserEvents,TeamEvents,Userpayment
 from django.views.decorators.csrf import csrf_protect
 from django.urls import reverse
 from django.conf import settings
-import os
+
 
 import qrcode
 import yagmail
@@ -48,7 +48,7 @@ def profile(request):
                 regno = request.POST.get('regno'),
                 college = request.POST.get('college')
             )
-            return redirect(reverse('home'))
+            return redirect(reverse('payment'))
 
     return render(request,'profile.html')
 
@@ -62,23 +62,16 @@ def logout_view(request):
 def home(request):
     userdata = ''
     if request.user.is_authenticated:
-        userdata = User.objects.get(email = request.user.email)
+        try:
+            userdata = User.objects.get(email = request.user.email)
+        except User.DoesNotExist:
+            return redirect('logout')
     return render(request,'home.html',{'userdata':userdata})
 
 #events
 @login_required(login_url='login')
 @csrf_protect
-def events(request):
-    cemail = User.objects.values_list('email',flat=True)
-    if request.user.email not in cemail:
-        return redirect('profile')
-    if request.method == 'POST':
-        Events.objects.create(
-            eventname = request.POST.get('event'),
-            limit = request.POST.get('limit'),
-        )
-        return redirect('event')
-    return render(request,'events.html')
+
 
 def errornotification(request,data,data2):
     return render(request,'errornotification.html',{'data':data,'data2':data2})
@@ -104,8 +97,6 @@ def registration(request):
         if cpemail.is_paid:
             if request.user.email not in cemail:
                 return redirect('profile')
-            team_event = Events.objects.filter(limit__gt=1)
-            nonteam_event = Events.objects.filter(limit=1)
             teams = TeamEvents.objects.all()
 
             if request.method == 'POST':
@@ -166,9 +157,9 @@ def registration(request):
                         return errornotification(request,temp_data,redirect_page)
 
                     
-                    length = Events.objects.get(eventname = joinevent)
+                    length = 3
 
-                    if len(data.teammates) < length.limit:
+                    if len(data.teammates) < length:
         
                         pinpassword = int(request.POST.get('pinpassword2'))
                         password = data.password
@@ -204,7 +195,7 @@ def registration(request):
     else:
         return redirect('payment')
 
-    return render(request,'registration.html',{'nonteam_event':nonteam_event,'team_event':team_event,'teams':teams})
+    return render(request,'registration.html',{'teams':teams})
 
 
 #payment
@@ -260,48 +251,26 @@ def paymentsuccess(request):
         qrfeatures = qrcode.QRCode(version=1,box_size=40,border=3)
 
         qr = qrcode.make(id)
-        qr.save('qr images/'+user.email+'.png')
+        qr.save('qrimages/'+user.email+'.png')
 
 
-        template_path = os.path.join(settings.BASE_DIR, 'templates', 'mail.html')
 
-
-        with open(template_path,'r') as file:
-            content = file.read()
-
-        # content = """
-        # <html>
-        # <head>
-        # <link href="../static/css/skin.css" rel="stylesheet" /> 
-        # </head>
-        # <body>
-        # <h1 class="logo extraBold gradient0" style="-webkit-text-stroke:0px transparent;"><b>REVOTRONICS</b></h1>
-        # <p style="font-family: Arial; color: blue;">Thank you for registering for Revotronics.</p>
-        # <p style="font-family: Times New Roman; color: red;">
-        # Please find the QR code attached to this email for check-in on the day of the symposium. Stay tuned for further updates.
-        # Get, Set, REV!
-        # Best Regards,
-        # Team Revotronics
-        # </p>
-        # </body>
-        # </html>
-        # """
 
         content = """
         <html>
         <body>
-        <h1><b>REVOTRONICS</b></h1>
-        <h3>Thank you for registering for Revotronics.</h3><br>
-        <p>Please find the QR code attached to this email for check-in on the day of symposium. Stay tuned for further updates.</p>
-        <p>Get, Set, REV!</p>
-        <p>Best Regards,</p>
-        <p>Team Revotronics.</p>
+        <h1 style="color:purple;"><b>REVOTRONICS</b></h1>
+        <h2 style="font-family:sans-serif;color:blue">Thank you for registering for Revotronics.</h2><br>
+        <h3 style="font-family:sans-serif;">Please find the QR code attached to this email for check-in on the day of symposium. Stay tuned for further updates.</h3>
+        <h3 style="font-family:sans-serif;">Get, Set, REV!</h3>
+        <h3 style="font-family:sans-serif;">Best Regards,</h3>
+        <h3 style="font-family:sans-serif;color:purple">Team Revotronics.</h3>
         </body>
         </html>
         """
 
-        yag = yagmail.SMTP('hostelmanagement02@gmail.com','qhtbczatuzxmqghx')
-        yag.send(user.email,'Revotronics Payment Successful',content,'qr images/'+user.email+'.png')
+        yag = yagmail.SMTP('revotronics23@gmail.com','xxux jqja ouct swkk')
+        yag.send(user.email,'Revotronics Payment Successful',content,'qrimages/'+user.email+'.png')
         yag.close()
 
     else:

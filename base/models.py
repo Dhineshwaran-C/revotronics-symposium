@@ -25,10 +25,10 @@ class Userpayment(models.Model):
     payment_id = models.CharField(max_length=500,blank=True)
 
 
-class Events(models.Model):
-    eventname = models.CharField(max_length=100)
-    limit = models.IntegerField()
-    type = models.CharField(max_length=100,null=True)
+# class Events(models.Model):
+#     eventname = models.CharField(max_length=100)
+#     limit = models.IntegerField()
+#     type = models.CharField(max_length=100,null=True)
 
 class UserEvents(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)

@@ -23,10 +23,9 @@
 
 </head>
 <body id="bdy">
-    <video class="bg_clip" autoplay loop muted play-inline>
-        <source src="../static/img/revo_vid.mov" type="video/mp4">
-    </video>
-    <!-- <i onclick="myScrollTo('aboutdiv')" class="bi bi-chevron-double-down gradient1 myHueRotationAnimation fadeup" id="bottomDirect"></i> -->
+
+    <img class="bg_clip" src="../static/img/backup_bg.png" alt="img">
+
     <br>
     <!-- Hero div -->
     {% if request.user.is_authenticated %}
@@ -47,17 +46,17 @@
         <div id="herotext">
             <div data-aos="fade-down" data-aos-once="true" data-aos-duration="1000">
                 <h3 style="color: white;font-weight: bolder;">ELECTRONICS AND COMMUNICATION ENGINEERING</h3>
-                <h3 style="color: white;font-family: 'Sofia Sans Extra Condensed', sans-serif;font-size: 35px;">PROUDLY PRESENTS</h3><br>
+                <h3 style="color: white;font-family: 'Sofia Sans Extra Condensed', sans-serif;font-size: 30px;">PROUDLY PRESENTS</h3><br>
             </div>
             <div data-aos="zoom-in" data-aos-once="true" data-aos-duration="1000" id="img_part">
                 <h3 style="color: lightseagreen;"><b>A NATIONAL LEVEL TECHNICAL SYMPOSIUM</b></h3><br>
-                <!-- <img class="img-fluid" src="img/homepage_img_txt.png" alt="logo"> -->
+
                 <h1 class="logo extraBold" style="-webkit-text-stroke:0px transparent;"><b>REVOTRONICS</b></h1>
                 <h1 style="color: lightseagreen;font-size: 50px;font-family: 'Exo 2', sans-serif;"><b>2023</b></h1>
             </div><br>
             <div data-aos="fade-up" data-aos-once="true" data-aos-duration="1000" id="reg_part">
                 <a id="registerHeroButton" class="btn-large myGradientRotationAnimation" href="{% url 'payment' %}">Register Now</a>
-                <a href="#eventcards" id="registerHeroButton" class="btn-large myGradientRotationAnimation">Explore Events</a>
+                <a href="#eventcards" id="registerHeroButton" class="btn-large myGradientRotationAnimation">Explore Events</a><br>
                 <div class="myFlex" id="socialMediaSection">
                     <i onclick="window.open('https://www.instagram.com/revotronics_/', '_blank').focus();" class="socialMediaIcons bi bi-instagram gradient1"></i>
                     <i onclick="window.open('https://goo.gl/maps/4pcpvt7NP187tNDn6', '_blank').focus();" class="socialMediaIcons bi bi-geo-alt-fill gradient1"></i>
@@ -86,7 +85,7 @@
         <h2 align="center" class="extraBold gradient0">About the Event</h2><br>
         <div class="row justify-content-between">
             <div class="col-md-6 text-center">
-                <img onclick="openInNewTab('../static/img/MAIN POSTER.png')" src="../static/img/MAIN POSTER.png" class="columnImage" style="position:relative;z-index:10015;" />
+                <img onclick="openInNewTab('../static/img/MAIN POSTER.png')" src="../static/img/MAIN POSTER.png" class="columnImage" style="position:relative;z-index:10015;margin-top: 7%;" />
             </div>
             <div class="col-md-6 columnText">
                 <p>
@@ -96,11 +95,7 @@
         </div>
     </div><br><br><br>
 
-    <!-- <h2 class="myHeader extraBold gradient0">Registration Ends In</h2><br>
-    <div id="registerBy" class="flipdown" style="width:max-content;margin:auto;"></div>
 
-    <h2 style="display:none;" class="myHeader extraBold gradient0">Event Starts In</h2>
-    <div id="eventBy" class="flipdown" style="display:none;width:max-content;margin:auto;"></div><br><br><br><br> -->
 
     <!-- Event List -->
     <div id="eventcards"></div>
@@ -145,7 +140,7 @@
                 <div class="content">
                     <h3>CS2 - Code Scramble Showdown</h3><br>
                     <p>Get ready for an exceptional code-breaking challenge! The "CS2 - Code Scramble Showdown" will test your reverse engineering skills.</p>
-                    <button style="color: white;" onclick="window.location.assign('{% url "cs2" %}')" class="btn extraBold knowmore" style="margin:1rem;">Know more <i class="bi bi-arrow-up-right-square-fill"></i></button>
+                    <button style="color: white;" onclick="window.location.assign('{% url "cs2" %}')" class="btn extraBold knowmore" style="margin-top:1rem;">Know more <i class="bi bi-arrow-up-right-square-fill"></i></button>
                 </div>
             </div>
             <div class="card card5">
@@ -184,7 +179,7 @@
                 <img src="../static/img/Rhym redux.png" alt="event">
                 <div class="content">
                     <h3>Rhyme Redux: A Two-Round Ballad Adventure</h3><br>
-                    <p>Event would comprise of two rounds. Click below to know more!</p>
+                    <p>A music game show testing linguistic process with translated lyrics and short song snippets.</p>
                     <button style="color: white;" onclick="window.location.assign('{% url "rhymeredux" %}')" class="btn extraBold knowmore" style="margin:1rem;">Know more <i class="bi bi-arrow-up-right-square-fill"></i></button>
                 </div>
             </div>
@@ -208,58 +203,46 @@
 
     <!-- Co ordinator List -->
     <h2 class="myHeader extraBold gradient0">Contacts</h2><br>
-    <h5 class="myHeader extraBold gradient0">Event Co-ordinators</h5>
-    <div style="color: white;" class="container">
-        <div class="row justify-content-center">
-            <div style="margin: 20px;" class="col-md-4 text-center">
-                <h5 class="extraBold">JEGAN P</h5>
-                <h6>9952044379</h6>
-            </div>
-            <div style="margin: 20px;" class="col-md-4 text-center">
-                <h5 class="extraBold">SUDARVEL K</h5>
-                <h6>7338965096</h6>
-            </div>
-            <div style="margin: 20px;" class="col-md-4 text-center">
-                <h5 class="extraBold">DANIEL S</h5>
-                <h6>9841057537</h6>
-            </div>
-            <div style="margin: 20px;" class="col-md-4 text-center">
-                <h5 class="extraBold">DEEPTHI P A</h5>
-                <h6>9003151944</h6>
-            </div>
+    <div style="color: white;" class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <h5 class="myHeader extraBold gradient0">Student Co-ordinators:</h5><br>
+            <h5 class="extraBold">JEGAN P</h5><br>
+            <h5 class="extraBold">SUDARVEL K</h5><br>
+            <h5 class="extraBold">DANIEL S</h5><br>
+            <h5 class="extraBold">DEEPTHI P A</h5><br><br>
+            <h5 class="myHeader extraBold gradient0">Events Head:</h5><br>
+            <h5 class="extraBold">HARIKARTHIKEYAN A</h5><br><br>
+
+        </div>
+        <div class="col-md-4 text-center">
+            <h3 class="myHeader extraBold gradient0">Help Desk:</h3><br>
+            <h5 class="extraBold">SRIVIDHYA S</h5>
+            <h6>9080573144</h6><br>
+            <h5 class="extraBold">SREENIDHI P</h5>
+            <h6>8248134935</h6><br>
+            <h5 class="extraBold">HARSHINI P B</h5>
+            <h6>8610744122</h6><br>
+            <h5 class="extraBold">LOHITHYA S</h5>
+            <h6>8072880434</h6><br>
+        </div>
+        <div class="col-md-4 text-center">
+            <h5 class="myHeader extraBold gradient0">Website Developed By:</h5><br>
+            <h5 class="extraBold">DHINESHWARAN C</h5><br>
+            <h5 class="extraBold">KUMARESH A</h5><br>
+            <h5 class="extraBold">SARATHI</h5><br>
+            <h5 class="extraBold">VISHAL PRASAD R</h5>
         </div>
     </div><br><br>
-
     <div class="myfooter">
         <span  class="footer"style="display:block;color:white;margin:auto;font-weight: 600;width: max-content;max-width: 90%;">Sponsored by</span><br><br>
         <img src="../static/img/reclogo.png" style="display:block;width: max-content; max-width: 90%;margin:auto;" />
         <br>
     </div>
-    <!-- <script>
-        var i=0,j=0,text,text1;
-        text = "ELECTRONICS AND COMMUNICATION ENGINEERING";
-        text1 = "PROUDLY PRESENTS";
-        function typing() {
-            if(i<text.length) {
-                document.getElementById("dept").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typing, 30);
-            }
-        }
-        typing();     
-        function typing1() {
-            if(j<text1.length) {
-                document.getElementById("pp").innerHTML += text1.charAt(j);
-                j++;
-                setTimeout(typing1, 100);
-            }
-        }
-        typing1();  
-    </script> -->
+   
     <script src="{% static 'vendors/counter/flipdown.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- <script src="../static/js/auto.js"></script> -->
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>

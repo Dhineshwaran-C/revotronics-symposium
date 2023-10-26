@@ -211,6 +211,7 @@ li{
     z-index: 10010;
 }
 
+
 .knowmore{
       align-items: center;
       background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
@@ -291,10 +292,9 @@ button{
     list-style-type: none;
     font-family: verminVibes ;
     user-select: none;
-    background: linear-gradient(to right, #6BCBDE, #2C296A, #453C95, #CC1D68, #D21B65); 
+    background: linear-gradient(to right, #35126b, #9f0964, #4f0c6b, #840b6b, #c20463, #700b6b, #640b6b, #5b043c, #b40454); 
     -webkit-text-fill-color: transparent; 
     -webkit-background-clip: text;
-    /* text-shadow: 0 -10px 70px, 0 0 2px, 0 0 1em #f443fc, 0 0 0.5em #f443fc, 0 0 0.1em #f443fc, 0 10px 3px #371269; */
 }
 
 .bg_clip {
