@@ -238,10 +238,15 @@ def payment(request):
 def paymentsuccess(request):
 
     payment_request_id = request.GET.get('payment_request_id')
-    paymentdetails = Userpayment.objects.get(order_id = payment_request_id)
+    try:
+        paymentdetails = Userpayment.objects.get(order_id = payment_request_id)
+    except Userpayment.DoesNotExist:
+        temp_data = 'You are not allowed here'
+        redirect_page = 'home'
+        return errornotification(request,temp_data,redirect_page)
     if paymentdetails.is_paid == False:
-        paymentdetails.is_paid = True
         paymentdetails.payment_id = request.GET.get('payment_id')
+        paymentdetails.is_paid = True
         paymentdetails.save()
 
         user = User.objects.get(email = request.user.email)
