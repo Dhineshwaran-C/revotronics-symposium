@@ -287,10 +287,30 @@ def paymentsuccess(request):
 #alreadypaid
 @login_required(login_url='login')
 def alreadypaid(request):
-    return render(request,'alreadypaid.html')
+    try:
+        userpaymentdata = Userpayment.objects.get(email = request.user.email)
+        if userpaymentdata.is_paid:
+            return render(request,'alreadypaid.html')
+        else:
+            temp_data = 'You are not allowed here'
+            redirect_page = 'home'
+            return errornotification(request,temp_data,redirect_page)
+    except Userpayment.DoesNotExist:
+        temp_data = 'You are not allowed here'
+        redirect_page = 'home'
+        return errornotification(request,temp_data,redirect_page)
+    
+
 
 @login_required(login_url='login')
 def registrationsuccess(request):
+    try:
+        registeremail = UserEvents.objects.get(email = request.user.email)
+    except UserEvents.DoesNotExist:
+        temp_data = 'You are not allowed here'
+        redirect_page = 'home'
+        return errornotification(request,temp_data,redirect_page)
+
     return render(request,'registrationsuccess.html')
 
 
