@@ -164,14 +164,14 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'AUTH_PARAMS': {'access_type':'online'},
         'APP':{
-            'client_id': "526121325314-mao8q4p825l7dl2jiui3qru5lobvf0ic.apps.googleusercontent.com",
-            'secret': "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",
+            'client_id': env("AUTH_CLIENT_ID"),
+            'secret': env("AUTH_SECRET"),
         }
     }
 }
 
-API_KEY = "test_1d1892f58039d35b1defc81b11e"
+API_KEY = env("PAYMENT_API_KEY")
 
-AUTH_TOKEN = "test_b69b12ddce92055eef455b9a673"
+AUTH_TOKEN = env("PAYMENT_AUTH_TOKEN")
 
-SALT = "a669d88b6604426e94ceedf969c0349b"
+SALT = env("PAYMENT_SALT")
