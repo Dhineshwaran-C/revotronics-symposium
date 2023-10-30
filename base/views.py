@@ -14,11 +14,7 @@ from instamojo_wrapper import Instamojo
 
 from django.conf import settings
 
-api = Instamojo(
-    api_key=settings.API_KEY,
-    auth_token = settings.AUTH_TOKEN,
-    endpoint='https://test.instamojo.com/api/1.1/'
-    )
+
 
 
 #  Login
@@ -198,6 +194,13 @@ def registration(request):
     return render(request,'registration.html',{'teams':teams})
 
 
+api = Instamojo(
+    api_key=settings.API_KEY,
+    auth_token = settings.AUTH_TOKEN,
+    endpoint='https://www.instamojo.com/api/1.1/'
+    )
+
+
 #payment
 @login_required(login_url='login')
 def payment(request):
@@ -214,10 +217,10 @@ def payment(request):
             return redirect('alreadypaid')
         else:
             response = api.payment_request_create(
-                amount = 10,
-                purpose = 'Payment Process',
-                buyer_name = 'Sam',
-                email = 'abc@gmail.com',
+                amount = 155,
+                purpose = 'Revotronics Payment Process',
+                buyer_name = userdetails.name,
+                email = request.user.email,
                 redirect_url = 'http://127.0.0.1:8000/paymentsuccess/'
             )
             paymentdetails.order_id = response['payment_request']['id']
