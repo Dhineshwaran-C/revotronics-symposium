@@ -221,7 +221,7 @@ def payment(request):
                 purpose = 'Revotronics Payment Process',
                 buyer_name = userdetails.name,
                 email = request.user.email,
-                redirect_url = 'http://127.0.0.1:8000/paymentsuccess/'
+                redirect_url = 'https://revotronics.sniphut.in/paymentsuccess/'
             )
             paymentdetails.order_id = response['payment_request']['id']
             paymentdetails.instamojo_response = response
